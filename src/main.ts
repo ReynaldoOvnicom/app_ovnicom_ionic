@@ -1,6 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import { createPinia } from 'pinia';
+import persistedState from 'pinia-plugin-persistedstate'; // Para persistencia opcional
+
 
 import { IonicVue } from '@ionic/vue';
 
@@ -34,7 +37,11 @@ import '@ionic/vue/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 
+const pinia = createPinia();
+pinia.use(persistedState); // Agregar el plugin de persistencia
+
 const app = createApp(App)
+  .use(pinia)
   .use(IonicVue)
   .use(router);
 

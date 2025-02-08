@@ -12,14 +12,22 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@capacitor/android": "6.2.0",
     "@capacitor/app": "6.0.2",
+    "@capacitor/camera": "^6.1.2",
     "@capacitor/core": "6.2.0",
+    "@capacitor/filesystem": "^6.0.2",
     "@capacitor/haptics": "6.0.2",
+    "@capacitor/ios": "6.2.0",
     "@capacitor/keyboard": "6.0.3",
+    "@capacitor/preferences": "^6.0.3",
     "@capacitor/status-bar": "6.0.2",
     "@ionic/vue": "^8.0.0",
     "@ionic/vue-router": "^8.0.0",
+    "axios": "^1.7.9",
     "ionicons": "^7.0.0",
+    "pinia": "^2.3.0",
+    "pinia-plugin-persistedstate": "^4.2.0",
     "vue": "^3.3.0",
     "vue-router": "^4.2.0"
   },
