@@ -10,6 +10,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/Dashboard.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: '/account',
+    component: () => import('../views/Account/Account.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
