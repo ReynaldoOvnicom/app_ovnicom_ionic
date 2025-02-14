@@ -1,6 +1,6 @@
 <template>
     <ion-page>
-      <ion-content>
+      <ion-content class="ion-padding">
         <ion-grid>
             <ion-row>
                 <ion-col></ion-col>
@@ -35,6 +35,9 @@
                     </ion-card>
                 </ion-col>
                 <ion-col></ion-col>
+            </ion-row>
+            <ion-row>
+              
             </ion-row>
         </ion-grid>
       </ion-content>
