@@ -1,10 +1,36 @@
 import { defineStore } from 'pinia';
 import axios from '../axios';
 
+// Definir interfaz para el perfil del usuario (opcional)
+interface UserProfile {
+  id: number
+  user_id: number
+  account_number: string
+  phone_number: string
+  date_of_birth: string | null
+  address: string | null
+  city: string | null
+  country: string | null
+  verified_account: number
+  created_at: string
+  updated_at: string
+  deleted_at: string | null
+}
+
+// Definir la interfaz para el usuario (perfil puede ser opcional)
 interface User {
-  id: number;
-  name: string;
-  email: string;
+  id: number
+  name: string
+  email: string
+  email_verified_at: string | null
+  two_factor_confirmed_at: string | null
+  current_team_id: number | null
+  profile_photo_path: string | null
+  created_at: string
+  updated_at: string
+  erp_partner_id: number | null
+  profile_photo_url: string
+  user_profile?: UserProfile | null
 }
 
 interface LoginResponse {

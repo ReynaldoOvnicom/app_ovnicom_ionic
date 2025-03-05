@@ -3,7 +3,7 @@
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
-            <ion-back-button @click="goBack"></ion-back-button>
+            <ion-back-button default-href="/dasboard"></ion-back-button>
           </ion-buttons>
           <ion-title>Mi cuenta</ion-title>
           <ion-buttons slot="end">
@@ -13,7 +13,10 @@
       </ion-header>
   
       <ion-content class="ion-padding">
-        <ion-card>
+        <ion-spinner v-if="accountStore.loading"></ion-spinner>
+        <p v-if="accountStore.error" class="error-message">{{ accountStore.error }}</p>
+        <p v-if="accountStore.error" class="error-message">Contacte al equipo de soporte.</p>
+        <ion-card v-if="accountStore.accountData && !accountStore.notFound">
     <ion-card-header>
       <ion-card-title>Saldo a la fecha</ion-card-title>
     </ion-card-header>
@@ -43,15 +46,15 @@
     </ion-card-content>
     <ion-button expand="full" fill="clear">Pagar Saldo</ion-button>
   </ion-card>
-        <ion-list>
-        <ion-item :button="true" detail="true">
-            <ion-icon slot="start" :icon="rec"></ion-icon>
-            <ion-label>Facturas</ion-label>
-        </ion-item>
-        <ion-item :button="true" detail="true">
-            <ion-icon slot="start" :icon="ca"></ion-icon>
-            <ion-label>Pagos</ion-label>
-        </ion-item>
+        <ion-list v-if="accountStore.accountData && !accountStore.notFound">
+          <ion-item :button="true" detail="true" @click="ionRouter.push('/invoices')">
+              <ion-icon slot="start" :icon="rec"></ion-icon>
+              <ion-label>Facturas</ion-label>
+          </ion-item>
+          <ion-item :button="true" detail="true">
+              <ion-icon slot="start" :icon="ca"></ion-icon>
+              <ion-label>Pagos</ion-label>
+          </ion-item>
         </ion-list>
       </ion-content>
     </ion-page>
@@ -60,14 +63,16 @@
   <script setup lang="ts">
   import { computed, onMounted } from 'vue';
   import { useAuthStore } from '@/stores/auth';
+  import { useAccountStore } from '@/stores/accountStore'
   import { IonCard, useIonRouter } from '@ionic/vue';
   import { IonContent, IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton,
     IonTitle, IonButton, IonList, IonItem, IonIcon, IonLabel, IonNote, IonThumbnail, IonCardContent, IonCardTitle, IonCardSubtitle,
-    IonCardHeader } from '@ionic/vue';
+    IonCardHeader, IonSpinner } from '@ionic/vue';
   import { receipt, cash } from 'ionicons/icons';
   
   // Stores y Router
   const authStore = useAuthStore();
+  const accountStore = useAccountStore();
   const user = computed(() => authStore.user);
   const ionRouter = useIonRouter();
   const rec = receipt;
@@ -99,10 +104,17 @@
   });
 
   const loadAccountData = () => {
-    console.log("Cargando datos de la cuenta" + JSON.stringify(authStore.user));
-    // Llamar el store que almacena las facturas
-    // Llamar el store que almacena los pagos
-    // Llamar el store que almacena los saldos de la cuenta
+    const accountNumber = authStore.user?.user_profile?.account_number ?? '';
+
+    if (!accountNumber) {
+      console.warn("No hay número de cuenta disponible.");
+      return;
+    }
+
+    console.log("Llamando a fetchAccountData con:", accountNumber);
+    accountStore.fetchAccountData(accountNumber);
+
+    console.log(accountStore.accountData)
 
   };
   </script>

@@ -7,14 +7,22 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/login', component: () => import('../views/Auth/login.vue') },
   {
     path: '/dashboard',
+    name: 'Dashboard',
     component: () => import('../views/Dashboard.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true }
   },
   {
     path: '/account',
+    name: 'Cuenta',
     component: () => import('../views/Account/Account.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true }
   },
+  {
+    path: '/invoices',
+    name: 'Facturas',
+    component: () => import('../views/Invoices/invoices.vue'),
+    meta: { requiresAuth: true }
+  }
 ];
 
 const router = createRouter({

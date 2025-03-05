@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from 'axios'
+import axios from '../axios';
 
 // Definimos las interfaces para tipar los datos correctamente
 interface Invoice {
@@ -35,7 +35,7 @@ export const useInvoiceStore = defineStore('invoiceStore', () => {
     error.value = null
 
     try {
-      const response = await axios.get<InvoiceResponse>(`/api/invoice?accountNumber=${accountNo}`)
+      const response = await axios.get<InvoiceResponse>(`${axios.defaults.baseURL}/api/invoice?accountNumber=${accountNo}`)
       customerName.value = response.data.name
       accountNumber.value = response.data.account_no
       invoices.value = response.data.invoices
