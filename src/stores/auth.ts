@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
 
       try {
         axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-        const { data } = await axios.get<User>(axios.defaults.baseURL + '/api/user');
+        const { data } = await axios.get<User>(axios.defaults.baseURL + '/api/profile');
         this.user = data;
         console.log("Usuario cargado:", this.user);
       } catch (error) {

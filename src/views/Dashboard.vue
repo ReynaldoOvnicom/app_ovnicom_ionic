@@ -78,6 +78,7 @@
 
   function goToPage(accountNumber: string){
     console.log(accountNumber);
+    localStorage.setItem('accountNumber', accountNumber);
     ionRouter.push(`/account`);
   }
   // lifecycle hooks

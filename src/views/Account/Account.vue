@@ -94,6 +94,16 @@
     if (!authStore.user) {
       authStore.fetchUserProfile();
     }
+
+    loadAccountData();
   });
+
+  const loadAccountData = () => {
+    console.log("Cargando datos de la cuenta" + JSON.stringify(authStore.user));
+    // Llamar el store que almacena las facturas
+    // Llamar el store que almacena los pagos
+    // Llamar el store que almacena los saldos de la cuenta
+
+  };
   </script>
   
