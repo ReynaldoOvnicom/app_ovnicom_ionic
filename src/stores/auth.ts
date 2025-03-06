@@ -43,9 +43,11 @@ export const useAuthStore = defineStore('auth', {
     token: localStorage.getItem('token') || '',
     message: null as string | null,
     user: null as User | null, // Agregar estado para el usuario
+    errorMessage: null as string|null, // Nuevo estado para manejar errores
   }),
   actions: {
     async login(credentials: { email: string; password: string, device_name: string }): Promise<void> {
+      this.errorMessage = null;
       try {
 
         const { data } = await axios.post<LoginResponse>(axios.defaults.baseURL + '/api/login', credentials);
@@ -56,8 +58,10 @@ export const useAuthStore = defineStore('auth', {
 
         await this.fetchUserProfile();
 
-      } catch(error){
+      } catch(error: any){
         console.error("Error en login:", error);
+        this.errorMessage = error.response?.data?.message || 'Error desconocido';
+        throw new Error(this.errorMessage?.toString());
       }
     },
     async fetchUserProfile(): Promise<void> {
@@ -77,9 +81,22 @@ export const useAuthStore = defineStore('auth', {
       this.token = '';
       this.message = null;
       this.user = null;
+      this.errorMessage = null;
       localStorage.removeItem('token')
       delete axios.defaults.headers.common['Authorization'];
     },
+    async forgotPassword(email: string): Promise<void> {
+      try {
+        this.message = null
+        this.errorMessage = null
+    
+        const { data } = await axios.post(`${axios.defaults.baseURL}/api/forgot-password`, { email })
+        
+        this.message = data.message // Guardamos el mensaje de éxito
+      } catch (err: any) {
+        this.errorMessage = err.response?.data?.message || 'Error al solicitar restablecimiento de contraseña'
+      }
+    }
   },
   persist: true,
 });
